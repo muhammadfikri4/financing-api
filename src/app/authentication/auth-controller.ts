@@ -25,7 +25,10 @@ export const loginController = async(
     next: NextFunction
 ) => {
     const { body } = req;
-    const user = await loginService(body);
+    const user = await loginService({
+      ...body,
+      password: atob(body.password),
+    });
     if (user instanceof ErrorApp) {
         next(user);
         return;
