@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  name         String      @db.VarChar(255)
+  email        String      @unique @db.VarChar(110)
+  password     String      @db.VarChar(110)
+  role         Role        @default(MANAGER)
+  departmentId Int?        @map("department_id")
+  isActive     Boolean     @default(false) @map("is_active")
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  department   Department? @relation(fields: [departmentId], references: [id])
+  budgets      Budgets[]
+
+  @@index([email], map: "user_fk_1")
+  @@index([departmentId], map: "user_fk_2")
+  @@map("users")
+}
+
+model Department {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(155)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  user      User[]
+
+  @@map("departments")
+}
+
+model Budgets {
+  id            String          @id @default(uuid())
+  amount        Decimal         @db.Decimal(20, 2)
+  createdBy     String          @map("created_by")
+  year          Int             @db.Year
+  purpose       String
+  notes         String?
+  status        Status
+  createdAt     DateTime        @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt     DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  user          User            @relation(fields: [createdBy], references: [id])
+  BudgetDetails BudgetDetails[]
+  Approval      Approval[]
+
+  @@index([createdBy], map: "budgets_fk_1")
+  @@map("budgets")
+}
+
+model BudgetDetails {
+  id          String   @id @default(uuid())
+  budgetId    String   @map("budget_id")
+  name        String
+  description String?
+  budget      Budgets  @relation(fields: [budgetId], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@index([budgetId], map: "budget_detail_fk_1")
+  @@map("budget_details")
+}
+
+model Approval {
+  id        Int      @id @default(autoincrement())
+  step      Int
+  isActive  Boolean  @default(false) @map("is_active")
+  budgetId  String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  budget    Budgets  @relation(fields: [budgetId], references: [id])
+
+  @@index([budgetId], map: "approval_fk_1")
+  @@map("approval")
+}
+
+enum Role {
+  ADMIN
+  MANAGING_DIRECTOR
+  FINANCE
+  HEAD_OF_DIVISION
+  MANAGER
+}
+
+enum Status {
+  PENDING
+  REVIEW
+  APPROVE
+  REJECT
+}
