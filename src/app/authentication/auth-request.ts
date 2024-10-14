@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { MESSAGES } from "../../utils/Messages";
-import { Role } from "app/users/constant";
+import { Role } from "../users/constant";
 
 export const registerSchema = Joi.object({
   name: Joi.string().required().messages({

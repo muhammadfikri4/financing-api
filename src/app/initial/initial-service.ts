@@ -1,8 +1,8 @@
-import { Role } from "app/users/constant";
-import { userRepo } from "repository";
-import { MESSAGE_CODE } from "utils/ErrorCode";
-import { ErrorApp } from "utils/HttpError";
-import { MESSAGES } from "utils/Messages";
+import { Role } from "../users/constant";
+import { userRepo } from "../../repository";
+import { MESSAGE_CODE } from "../../utils/ErrorCode";
+import { ErrorApp } from "../../utils/HttpError";
+import { MESSAGES } from "../../utils/Messages";
 import * as bcrypt from "bcrypt";
 import { InitialUserRequest } from "./initial-dao";
 
