@@ -12,7 +12,7 @@ import { MESSAGE_CODE } from "../utils/ErrorCode";
 import { HandleResponse } from "../utils/HandleResponse";
 import { MESSAGES } from "../utils/Messages";
 import { Role } from "@prisma/client";
-import { userRepo } from "repository";
+import { userRepo } from "../repository";
 
 export const VerifyToken =
   (roles: Role[] = ["ADMIN"]) =>
