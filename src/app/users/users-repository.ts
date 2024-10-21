@@ -1,6 +1,8 @@
 import { Role } from "@prisma/client";
 import { prisma } from "../../config";
 import { CreateUserDAO } from "./users-dao";
+import { queryPagination } from "../../utils/Pagination";
+import { Query } from "../../interface/Query";
 
 export const createUser = async (
   data: CreateUserDAO,
@@ -15,6 +17,32 @@ export const createUser = async (
       departmentId: data.departmentId,
       isActive,
       role,
+    },
+  });
+};
+
+export const getUsers = async (query: Query) => {
+  const { search } = query;
+  return prisma.user.findMany({
+    where: {
+      name: {
+        contains: search,
+      },
+    },
+    include: {
+      department: true,
+    },
+    ...queryPagination(query),
+  });
+};
+
+export const getUsersCount = async (query: Query) => {
+  const { search } = query;
+  return prisma.user.count({
+    where: {
+      name: {
+        contains: search,
+      },
     },
   });
 };

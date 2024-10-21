@@ -7,3 +7,10 @@ export const createDepartmentSchema = Joi.object({
   }),
   isActive: Joi.boolean().optional().allow(null),
 });
+
+export const updateDepartmentSchema = Joi.object({
+  name: Joi.string().optional().messages({
+    "any.required": MESSAGES.ERROR.REQUIRED.NAME,
+  }),
+  isActive: Joi.boolean().optional().allow(null),
+});
