@@ -1,5 +1,5 @@
 import { ErrorApp } from "../../utils/HttpError";
-import { departmentRepo } from "../../repository";
+import { departmentRepository } from "../../repository";
 import { CreateDepartmentDAO, UpdateDepartmentDAO } from "./department-dao";
 import { MESSAGES } from "../../utils/Messages";
 import { MESSAGE_CODE } from "../../utils/ErrorCode";
@@ -7,7 +7,7 @@ import { Query } from "interface/Query";
 import { Meta } from "utils/Meta";
 
 export const createDepartmentService = async (data: CreateDepartmentDAO) => {
-  const department = await departmentRepo.getDepartmentByName(data.name);
+  const department = await departmentRepository.getDepartmentByName(data.name);
 
   if (department) {
     return new ErrorApp(
@@ -17,15 +17,15 @@ export const createDepartmentService = async (data: CreateDepartmentDAO) => {
     );
   }
 
-  const result = await departmentRepo.createDepartment(data);
+  const result = await departmentRepository.createDepartment(data);
   return result;
 };
 
 export const getDepartmentService = async (query: Query) => {
   const { page = "1", perPage = "10" } = query;
   const [department, totalData] = await Promise.all([
-    departmentRepo.getDepartment(query),
-    departmentRepo.getDepartmentCount(query),
+    departmentRepository.getDepartment(query),
+    departmentRepository.getDepartmentCount(query),
   ]);
   const meta = Meta(Number(page), Number(perPage), totalData);
   return { data: department, meta };
@@ -35,7 +35,7 @@ export const updateDepartmentService = async (
   id: number,
   data: UpdateDepartmentDAO
 ) => {
-  const department = await departmentRepo.getDepartmentById(id);
+  const department = await departmentRepository.getDepartmentById(id);
   if (!department) {
     return new ErrorApp(
       MESSAGES.ERROR.NOT_FOUND.DEPARTMENT,
@@ -43,7 +43,7 @@ export const updateDepartmentService = async (
       MESSAGE_CODE.NOT_FOUND
     );
   }
-  const existName = await departmentRepo.getDepartmentByName(data.name);
+  const existName = await departmentRepository.getDepartmentByName(data.name);
 
   if (existName && existName?.id !== department.id) {
     return new ErrorApp(
@@ -53,12 +53,12 @@ export const updateDepartmentService = async (
     );
   }
 
-  const result = await departmentRepo.updateDepartemnt(id, data);
+  const result = await departmentRepository.updateDepartemnt(id, data);
   return result;
 };
 
 export const deleteDepartmentService = async (id: number) => {
-  const department = await departmentRepo.getDepartmentById(Number(id));
+  const department = await departmentRepository.getDepartmentById(Number(id));
 
   if (!department) {
     return new ErrorApp(
@@ -67,6 +67,6 @@ export const deleteDepartmentService = async (id: number) => {
       MESSAGE_CODE.NOT_FOUND
     );
   }
-  const result = await departmentRepo.deleteDepartment(id);
+  const result = await departmentRepository.deleteDepartment(id);
   return result;
 };

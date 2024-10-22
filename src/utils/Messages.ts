@@ -78,6 +78,9 @@ export const MESSAGES = {
       LOGIN: "Success to login",
       LOGOUT: "Success to logout",
     },
+    PROFILE: {
+GET: "Success to get profile",
+    },
     DEPARTMENT: {
       GET: "Success to get department",
       CREATE: "Success to create department",

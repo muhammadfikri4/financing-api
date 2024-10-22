@@ -1,4 +1,4 @@
-import { departmentRepo, userRepo } from "../../repository";
+import { departmentRepository, userRepository } from "../../repository";
 import { LoginBodyDAO, RegisterBodyDAO } from "./auth-dao";
 import { ErrorApp } from "../../utils/HttpError";
 import { MESSAGES } from "../../utils/Messages";
@@ -9,7 +9,7 @@ import { config } from "../../libs";
 import { GenerateToken } from "../../utils/GenerateToken";
 
 export const registerService = async (data: RegisterBodyDAO) => {
-  const userExist = await userRepo.getUserByEmail(data.email);
+  const userExist = await userRepository.getUserByEmail(data.email);
 
   if (userExist) {
     return new ErrorApp(
@@ -19,7 +19,7 @@ export const registerService = async (data: RegisterBodyDAO) => {
     );
   }
 
-  const department = await departmentRepo.getDepartmentById(data.departmentId);
+  const department = await departmentRepository.getDepartmentById(data.departmentId);
   if (!department) {
     return new ErrorApp(
       MESSAGES.ERROR.NOT_FOUND.DEPARTMENT,
@@ -28,7 +28,7 @@ export const registerService = async (data: RegisterBodyDAO) => {
     );
   }
 
-  const roleDepartment = await userRepo.getUserByRoleDepartment(
+  const roleDepartment = await userRepository.getUserByRoleDepartment(
     data.position,
     data.departmentId
   );
@@ -49,7 +49,7 @@ export const registerService = async (data: RegisterBodyDAO) => {
   }
   const password = await bcrypt.hash(data.password, 10);
 
-  const result = await userRepo.createUser({
+  const result = await userRepository.createUser({
     email: data.email,
     name: data.email,
     password,
@@ -60,7 +60,7 @@ export const registerService = async (data: RegisterBodyDAO) => {
 };
 
 export const loginService = async (data: LoginBodyDAO) => {
-  const user = await userRepo.getUserByEmail(data.email);
+  const user = await userRepository.getUserByEmail(data.email);
   if (!user) {
     return new ErrorApp(
       MESSAGES.ERROR.NOT_FOUND.USER.ACCOUNT,

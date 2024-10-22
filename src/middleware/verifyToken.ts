@@ -12,7 +12,7 @@ import { MESSAGE_CODE } from "../utils/ErrorCode";
 import { HandleResponse } from "../utils/HandleResponse";
 import { MESSAGES } from "../utils/Messages";
 import { Role } from "@prisma/client";
-import { userRepo } from "../repository";
+import { userRepository } from "../repository";
 import { ErrorApp } from "utils/HttpError";
 
 export const VerifyToken =
@@ -36,13 +36,8 @@ export const VerifyToken =
       let errno: ErrorApp | undefined;
       verify(token, config.JWT_SECRET as string, (err: unknown) => {
         if (err) {
+          console.log(err)
           if (err instanceof TokenExpiredError) {
-            // return HandleResponse(
-            //   res,
-            //   401,
-            //   MESSAGE_CODE.UNAUTHORIZED,
-            //   MESSAGES.ERROR.UNAUTHORIZED.EXPIRED
-            // );
             errno = new ErrorApp(
               MESSAGES.ERROR.UNAUTHORIZED.EXPIRED,
               401,
@@ -51,21 +46,9 @@ export const VerifyToken =
             return;
           }
           if (err instanceof JsonWebTokenError) {
-            // return HandleResponse(
-            //   res,
-            //   401,
-            //   MESSAGE_CODE.UNAUTHORIZED,
-            //   err.message
-            // );
             errno = new ErrorApp(err.message, 401, MESSAGE_CODE.UNAUTHORIZED);
             return;
           }
-          // return HandleResponse(
-          //   res,
-          //   401,
-          //   MESSAGE_CODE.UNAUTHORIZED,
-          //   MESSAGES.ERROR.INVALID.TOKEN
-          // );
           errno = new ErrorApp(
             MESSAGES.ERROR.INVALID.TOKEN,
             401,
@@ -87,7 +70,7 @@ export const VerifyToken =
         );
       }
 
-      const user = await userRepo.getUserById(decoded?.userId);
+      const user = await userRepository.getUserById(decoded?.userId);
       if (!user) {
         return HandleResponse(
           res,

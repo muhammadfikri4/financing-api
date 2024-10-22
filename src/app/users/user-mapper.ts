@@ -5,7 +5,7 @@ export interface UserData extends User {
   department: Department;
 }
 
-export const getUserDTOMapper = (users: UserData[]): UserDTO[] => {
+export const getUsersDTOMapper = (users: UserData[]): UserDTO[] => {
   return users.map((item) => ({
     id: item.id,
     name: item.name,
@@ -19,4 +19,20 @@ export const getUserDTOMapper = (users: UserData[]): UserDTO[] => {
         }
       : null,
   }));
+};
+
+export const getUserDTOMapper = (user: UserData): UserDTO => {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    isActive: user.isActive,
+    department: user.department
+      ? {
+          id: user.department.id,
+          name: user.department.name,
+        }
+      : null,
+  }
 };
