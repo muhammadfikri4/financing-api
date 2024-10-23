@@ -1,7 +1,7 @@
-import { Query } from "interface/Query";
+import { Query } from "../../interface/Query";
 import { prisma } from "../../config";
 import { CreateDepartmentDAO, UpdateDepartmentDAO } from "./department-dao";
-import { queryPagination } from "utils/Pagination";
+import { queryPagination } from "../../utils/Pagination";
 
 export const getDepartmentById = async (id: number) => {
   return await prisma.department.findUnique({

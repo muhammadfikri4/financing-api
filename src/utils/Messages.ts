@@ -6,6 +6,7 @@ export const MESSAGES = {
     },
     ROLE: "Role created successfully",
     DEPARTMENT: "Department created successfully",
+    BUDGET: "Budget created successfully",
   },
   ERROR: {
     NOT_FOUND: {
@@ -31,6 +32,8 @@ export const MESSAGES = {
       USER: "User already exist",
       ROLE: "Role is already exist",
       DEPARTMENT: "Department is already exist",
+      BUDGET_PENDING: 'You have a budget that is still pending, please complete it first.',
+      BUDGET: 'You have submitted a budget for this year.'
     },
     INVALID: {
       GLOBAL: {
@@ -45,6 +48,8 @@ export const MESSAGES = {
       TOKEN: "Token is invalid",
       INITIAL: "Initial can only be run 1 time",
       CODE: "Code is invalid",
+      REQUEST_BUDGET: "Only role managers can submit budgets" ,
+      FAILED_REQUEST: "Failed to create budget"
     },
     UNAUTHORIZED: {
       AUTH: "If you are not logged in, please log in first",
@@ -59,6 +64,7 @@ export const MESSAGES = {
       NAME: "Name is required",
       CODE: "Code is required",
       DEPARTMENT: "Department is required",
+      PURPOSE_BUDGET: "Please provide a purpose for your budget",
     },
     FORBIDDEN: {
       ROLE: "Role can't be access this feature"

@@ -3,6 +3,7 @@ import departmentRoute from "../app/department/department-route";
 import initialRoute from "../app/initial/initial-route";
 import authRoute from "../app/authentication/auth-route";
 import userRoute from "../app/users/users-route";
+import budgetsRoute from "../app/budgets/budgets-route";
 import profileRoute from "../app/profile/profile-route";
 import { MESSAGE_CODE } from "../utils/ErrorCode";
 import { MESSAGES } from "../utils/Messages";
@@ -14,6 +15,17 @@ route.use("/auth", authRoute);
 route.use("/departments", VerifyToken(), departmentRoute);
 route.use("/initial", initialRoute);
 route.use("/users", VerifyToken(), userRoute);
+route.use(
+  "/budgets",
+  VerifyToken([
+    "ADMIN",
+    "FINANCE",
+    "HEAD_OF_DIVISION",
+    "MANAGER",
+    "MANAGING_DIRECTOR",
+  ]),
+  budgetsRoute
+);
 route.use(
   "/profile",
   VerifyToken([

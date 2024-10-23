@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getProfileController } from "./profile-controller";
-import { CatchWrapper } from "utils/CatchWrapper";
+import { CatchWrapper } from "../../utils/CatchWrapper";
 
 const route = Router()
 

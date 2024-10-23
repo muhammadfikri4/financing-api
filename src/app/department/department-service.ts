@@ -3,8 +3,8 @@ import { departmentRepository } from "../../repository";
 import { CreateDepartmentDAO, UpdateDepartmentDAO } from "./department-dao";
 import { MESSAGES } from "../../utils/Messages";
 import { MESSAGE_CODE } from "../../utils/ErrorCode";
-import { Query } from "interface/Query";
-import { Meta } from "utils/Meta";
+import { Query } from "../../interface/Query";
+import { Meta } from "../../utils/Meta";
 
 export const createDepartmentService = async (data: CreateDepartmentDAO) => {
   const department = await departmentRepository.getDepartmentByName(data.name);

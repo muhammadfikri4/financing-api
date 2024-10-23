@@ -41,7 +41,7 @@ model Budgets {
   amount        Decimal         @db.Decimal(20, 2)
   createdBy     String          @map("created_by")
   year          Int             @db.Year
-  purpose       String
+  purpose       String?
   notes         String?
   status        Status
   createdAt     DateTime        @default(now()) @map("created_at") @db.Timestamp(0)
